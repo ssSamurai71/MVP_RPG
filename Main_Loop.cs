@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Main_Loop : MonoBehaviour
+public class Main_Loop : MonoBehaviour 
 {
-    public Text player_level, player_HP, player_HP_REGEN, player_DEF, player_ATK, player_EXP, player_stat_points;
+    public Text player_level, player_HP, player_DEF, player_ATK, player_EXP;
     public Text enemy_level, enemy_HP, enemy_DEF, enemy_ATK;
     public Text save_timer;
 
@@ -70,11 +70,9 @@ public class Main_Loop : MonoBehaviour
     {
         player_level.text = "Level: " + p1.LVL.ToString();
         player_HP.text = "HP: " + p1.CURRENT_HP.ToString("F0") + " / " + p1.HP.ToString();
-        player_HP_REGEN.text = "HP Regenration: " + p1.HP_REGEN.ToString();
         player_DEF.text = "DEF: " + p1.DEF.ToString("F0");
         player_ATK.text = "ATK: " + p1.ATK.ToString("F0");
         player_EXP.text = "EXP: " + p1.EXP.ToString("F0") + " / " + p1.TO_LVL_UP.ToString("F0");
-        player_stat_points.text = "Usable Stat Points: " + p1.STAT_POINTS.ToString();
     }
 
     public void Display_enemy_stats()
