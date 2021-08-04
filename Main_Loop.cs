@@ -9,7 +9,7 @@ public class Main_Loop : MonoBehaviour
     public Text enemy_level, enemy_HP, enemy_DEF, enemy_ATK;
     public Text save_timer;
 
-    Player p1 = new Player();
+    protected Player p1 = new Player();
     Enemy random_mob = new Enemy();
     const int enemy_min_stat = 1;
     const int enemy_max_stat = 25;
