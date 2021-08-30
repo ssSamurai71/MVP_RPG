@@ -34,7 +34,11 @@ public class Main_Loop : MonoBehaviour
         p1.START_HP = double.Parse(PlayerPrefs.GetString("p1.START_HP","100"));
         p1.START_HP_REGEN = double.Parse(PlayerPrefs.GetString("p1.START_HP_REGEN","1"));
         p1.START_ATK = double.Parse(PlayerPrefs.GetString("p1.START_ATK","10"));
-        p1.START_DEF = double.Parse(PlayerPrefs.GetString("p1.START_DEF","10"));        
+        p1.START_DEF = double.Parse(PlayerPrefs.GetString("p1.START_DEF","10"));
+        p1.NG_HP = double.Parse(PlayerPrefs.GetString("p1.NG_HP","0"));
+        p1.NG_HP_REGEN = double.Parse(PlayerPrefs.GetString("p1.NG_HP_REGEN","0"));
+        p1.NG_ATK = double.Parse(PlayerPrefs.GetString("p1.NG_ATK","0"));
+        p1.NG_DEF = double.Parse(PlayerPrefs.GetString("p1.NG_DEF","0"));               
     }
 
     public void Save_stats()
@@ -53,6 +57,10 @@ public class Main_Loop : MonoBehaviour
         PlayerPrefs.SetString("p1.START_HP_REGEN",p1.START_HP_REGEN.ToString());
         PlayerPrefs.SetString("p1.START_ATK",p1.START_ATK.ToString());
         PlayerPrefs.SetString("p1.START_DEF",p1.START_DEF.ToString());
+        PlayerPrefs.SetString("p1.NG_HP",p1.NG_HP.ToString());
+        PlayerPrefs.SetString("p1.NG_HP_REGEN",p1.NG_HP_REGEN.ToString());
+        PlayerPrefs.SetString("p1.NG_ATK",p1.NG_ATK.ToString());
+        PlayerPrefs.SetString("p1.NG_DEF",p1.NG_DEF.ToString());
     }
 
     void Auto_save()
@@ -170,7 +178,7 @@ public class Main_Loop : MonoBehaviour
     {
         double damage_reduced = p1.ATK - random_mob.DEF;
         if(damage_reduced < 0)
-            { damage_reduced = 0; }
+            { damage_reduced = 1; }
         random_mob.CURRENT_HP -= damage_reduced * Time.deltaTime;
     }
 
@@ -179,7 +187,7 @@ public class Main_Loop : MonoBehaviour
     {
         double damage_reduced = random_mob.ATK - p1.DEF;
         if(damage_reduced < 0)
-            { damage_reduced = 0; }
+            { damage_reduced = 1; }
         p1.CURRENT_HP -= damage_reduced * Time.deltaTime;
     }
 

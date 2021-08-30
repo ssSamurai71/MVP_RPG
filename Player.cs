@@ -15,6 +15,10 @@ public class Player : Characters
     private double start_atk;
     const int min_stat_roll = 1;
     const int max_stat_roll = 5;
+    private double ng_hp;
+    private double ng_hp_regen;
+    private double ng_def;
+    private double ng_atk;
 
     public double EXP
     {
@@ -162,4 +166,76 @@ public class Player : Characters
         START_ATK = ATK;
     }
 
+    //ng plus stuff
+    public double NG_HP
+    {
+        get
+        {
+            return ng_hp;
+        }
+        set
+        {
+            ng_hp = value;
+        }
+    }
+
+    public double NG_HP_REGEN
+    {
+        get
+        {
+            return ng_hp_regen;
+        }
+        set
+        {
+            ng_hp_regen = value;
+        }
+    }
+
+    public double NG_ATK
+    {
+        get
+        {
+            return ng_atk;
+        }
+        set
+        {
+            ng_atk = value;
+        }
+    }
+
+    public double NG_DEF
+    {
+        get
+        {
+            return ng_def;
+        }
+        set
+        {
+            ng_def = value;
+        }
+    }
+
+    public void improve_ng_hp()
+    {
+        NG_HP += 10;
+        NG_POINTS = NG_POINTS - 1;
+    }
+
+    public void improve_ng_hp_regen()
+    {
+        NG_HP_REGEN += 2;
+        NG_POINTS = NG_POINTS - 1;
+    }
+
+    public void improve_ng_def()
+    {
+        NG_DEF += 1;
+        NG_POINTS = NG_POINTS - 1;
+    }
+
+    public void improve_ng_atk()
+    {
+        NG_ATK += 1;
+        NG_POINTS = NG_POINTS - 1;
+    }
 }
