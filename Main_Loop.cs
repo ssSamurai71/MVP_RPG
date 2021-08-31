@@ -91,7 +91,7 @@ public class Main_Loop : MonoBehaviour
         enemy_ATK.text = "ATK: " + random_mob.ATK.ToString("F0");
     }
 
-    void set_lvl()
+    void set_enemy_lvl()
     {
         if(p1.LVL == 1)
         {
@@ -105,7 +105,7 @@ public class Main_Loop : MonoBehaviour
         }
     }
 
-    void set_hp()
+    void set_enemy_hp()
     {
         if(p1.LVL == 1)
         {
@@ -121,7 +121,7 @@ public class Main_Loop : MonoBehaviour
         random_mob.CURRENT_HP = random_mob.HP;
     }
 
-    void set_atk()
+    void set_enemy_atk()
     {
         if(p1.LVL == 1)
         {
@@ -136,7 +136,7 @@ public class Main_Loop : MonoBehaviour
         
     }
 
-    void set_def()
+    void set_enemy_def()
     {
         if(p1.LVL <= 3)
         {
@@ -150,7 +150,7 @@ public class Main_Loop : MonoBehaviour
         }
     }
 
-    void set_drop_exp()
+    void set_enemy_drop_exp()
     {
         if(p1.LVL == 1)
         {
@@ -166,11 +166,11 @@ public class Main_Loop : MonoBehaviour
 
     public void Spawn_enemy()
     {   
-        set_atk();
-        set_def();
-        set_drop_exp();
-        set_hp();
-        set_lvl();
+        set_enemy_atk();
+        set_enemy_def();
+        set_enemy_drop_exp();
+        set_enemy_hp();
+        set_enemy_lvl();
     }
 
     //damage the player
@@ -271,9 +271,39 @@ public class Main_Loop : MonoBehaviour
         }
     }
 
-    void level_up()
+    void Level_up()
     {
         p1.lvl_up();
+    }
+
+    public void Start_NG()
+    {
+        p1.set_start_stats();
+        p1.generate_NG_point();
+        p1.EXP = 0;
+        p1.LVL = 1;
+    }
+
+    public void Hard_reset()
+    {
+        p1.hard_reset_stats();
+        p1.NG_ATK = 0;
+        p1.NG_DEF = 0;
+        p1.NG_HP = 0;
+        p1.NG_HP_REGEN = 0;
+        p1.NG_POINTS = 0;
+        p1.EXP = 0;
+        p1.TO_LVL_UP = 100;
+        p1.LVL = 1;
+        Spawn_enemy();
+    }
+
+    void Add_NG_stats()
+    {
+        p1.HP = p1.HP + p1.NG_HP;
+        p1.HP_REGEN = p1.HP_REGEN + p1.HP_REGEN;
+        p1.ATK = p1.ATK + p1.NG_ATK;
+        p1.DEF = p1.DEF + p1.NG_DEF;
     }
 
     // Start is called before the first frame update
@@ -293,7 +323,7 @@ public class Main_Loop : MonoBehaviour
         Display_player_stats();
         Display_enemy_stats();
         Fight();
-        level_up();
+        Level_up();
         Auto_save();
     }
 }

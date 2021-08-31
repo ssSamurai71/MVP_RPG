@@ -15,6 +15,7 @@ public class Player : Characters
     private double start_atk;
     const int min_stat_roll = 1;
     const int max_stat_roll = 5;
+    const int ng_calc = 5;
     private double ng_hp;
     private double ng_hp_regen;
     private double ng_def;
@@ -116,6 +117,16 @@ public class Player : Characters
         }
     }
 
+    //figure out if a point can be generated
+    public void generate_NG_point()
+    {
+        if(LVL >= ng_calc )
+        {
+            NG_POINTS = Mathf.Round( (float) LVL / (float) ng_calc);
+        }
+        
+    }
+
     public void lvl_up()
     {
         if(EXP >= TO_LVL_UP)
@@ -136,26 +147,41 @@ public class Player : Characters
 
     public void improve_hp()
     {
-        HP += 50;
-        STAT_POINTS = STAT_POINTS - 1;
+        if(STAT_POINTS > 0)
+        {
+            HP += 50;
+            STAT_POINTS = STAT_POINTS - 1;
+        }
     }
 
     public void improve_hp_regen()
     {
-        HP_REGEN += 5;
-        STAT_POINTS = STAT_POINTS - 1;
+        if(STAT_POINTS > 0)
+        {
+            HP_REGEN += 5;
+            STAT_POINTS = STAT_POINTS - 1; 
+        }
+        
     }
 
     public void improve_def()
     {
-        DEF += 1;
-        STAT_POINTS = STAT_POINTS - 1;
+        if(STAT_POINTS > 0)
+        {
+            DEF += 1;
+            STAT_POINTS = STAT_POINTS - 1;
+        }
+        
     }
 
     public void improve_atk()
     {
-        ATK += 1;
-        STAT_POINTS = STAT_POINTS - 1;
+        if(STAT_POINTS > 0)
+        {
+            ATK += 1;
+            STAT_POINTS = STAT_POINTS - 1;
+        }
+        
     }
 
     public void set_start_stats()
@@ -164,6 +190,14 @@ public class Player : Characters
         START_HP_REGEN = HP_REGEN;
         START_DEF = DEF;
         START_ATK = ATK;
+    }
+
+    public void hard_reset_stats()
+    {
+        HP = START_HP;
+        HP_REGEN = START_HP_REGEN;
+        DEF = START_DEF;
+        ATK = START_ATK;
     }
 
     //ng plus stuff
@@ -217,25 +251,40 @@ public class Player : Characters
 
     public void improve_ng_hp()
     {
-        NG_HP += 10;
-        NG_POINTS = NG_POINTS - 1;
+        if(NG_POINTS > 0)
+        {
+            NG_HP += 10;
+            NG_POINTS = NG_POINTS - 1;    
+        }
+        
     }
 
     public void improve_ng_hp_regen()
     {
-        NG_HP_REGEN += 2;
-        NG_POINTS = NG_POINTS - 1;
+        if(NG_POINTS > 0)
+        {
+            NG_HP_REGEN += 2;
+            NG_POINTS = NG_POINTS - 1; 
+        }
+        
     }
 
     public void improve_ng_def()
     {
-        NG_DEF += 1;
-        NG_POINTS = NG_POINTS - 1;
+        if(NG_POINTS > 0)
+        {
+            NG_DEF += 1;
+            NG_POINTS = NG_POINTS - 1;    
+        }
+        
     }
 
     public void improve_ng_atk()
     {
-        NG_ATK += 1;
-        NG_POINTS = NG_POINTS - 1;
+        if(NG_POINTS > 0)
+        {
+            NG_ATK += 1;
+            NG_POINTS = NG_POINTS - 1;
+        }
     }
 }
