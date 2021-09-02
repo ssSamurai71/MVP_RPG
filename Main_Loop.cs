@@ -11,13 +11,13 @@ public class Main_Loop : MonoBehaviour
 
     protected Player p1 = new Player();
     Enemy random_mob = new Enemy();
-    const int enemy_min_stat = 1;
-    const int enemy_max_stat = 25;
-    const int min_lvl = 2;
-    const int max_lvl = 5;
-    double min_scaling, max_scaling;
-    double min_lvl_scaling, max_lvl_scaling;
+    const int enemy_min_stat = 1, enemy_max_stat = 25, min_lvl = 2, max_lvl = 5;
+    double min_scaling, max_scaling, min_lvl_scaling, max_lvl_scaling;
     float auto_save_time = 30;
+
+    //have constants for starting stats
+    const int start_player_hp = 100, start_current_hp = 100, start_player_hp_regen = 1, start_player_lvl = 1;
+    const int start_player_atk = 10, start_player_def = 10, start_player_exp = 0, start_player_to_lvl = 100;
 
     public void Load_stats()
     {   
@@ -31,10 +31,6 @@ public class Main_Loop : MonoBehaviour
         p1.TO_LVL_UP = double.Parse(PlayerPrefs.GetString("p1.TO_LVL_UP","100"));
         p1.STAT_POINTS = double.Parse(PlayerPrefs.GetString("p1.STAT_POINTS","0"));
         p1.NG_POINTS = double.Parse(PlayerPrefs.GetString("p1.NG_POINTS","0"));
-        p1.START_HP = double.Parse(PlayerPrefs.GetString("p1.START_HP","100"));
-        p1.START_HP_REGEN = double.Parse(PlayerPrefs.GetString("p1.START_HP_REGEN","1"));
-        p1.START_ATK = double.Parse(PlayerPrefs.GetString("p1.START_ATK","10"));
-        p1.START_DEF = double.Parse(PlayerPrefs.GetString("p1.START_DEF","10"));
         p1.NG_HP = double.Parse(PlayerPrefs.GetString("p1.NG_HP","0"));
         p1.NG_HP_REGEN = double.Parse(PlayerPrefs.GetString("p1.NG_HP_REGEN","0"));
         p1.NG_ATK = double.Parse(PlayerPrefs.GetString("p1.NG_ATK","0"));
@@ -53,10 +49,6 @@ public class Main_Loop : MonoBehaviour
         PlayerPrefs.SetString("p1.TO_LVL_UP",p1.TO_LVL_UP.ToString());
         PlayerPrefs.SetString("p1.STAT_POINTS",p1.STAT_POINTS.ToString());
         PlayerPrefs.SetString("p1.NG_POINTS",p1.NG_POINTS.ToString());
-        PlayerPrefs.SetString("p1.START_HP",p1.START_HP.ToString());
-        PlayerPrefs.SetString("p1.START_HP_REGEN",p1.START_HP_REGEN.ToString());
-        PlayerPrefs.SetString("p1.START_ATK",p1.START_ATK.ToString());
-        PlayerPrefs.SetString("p1.START_DEF",p1.START_DEF.ToString());
         PlayerPrefs.SetString("p1.NG_HP",p1.NG_HP.ToString());
         PlayerPrefs.SetString("p1.NG_HP_REGEN",p1.NG_HP_REGEN.ToString());
         PlayerPrefs.SetString("p1.NG_ATK",p1.NG_ATK.ToString());
@@ -276,26 +268,34 @@ public class Main_Loop : MonoBehaviour
         p1.lvl_up();
     }
 
+    void set_starting_player_values()
+    {
+        p1.HP = start_player_hp;
+        p1.CURRENT_HP = start_current_hp;
+        p1.ATK = start_player_atk;
+        p1.DEF = start_player_def;
+        p1.LVL = start_player_lvl;
+        p1.EXP = start_player_exp;
+        p1.TO_LVL_UP = start_player_to_lvl;
+        p1.HP_REGEN = start_player_hp_regen;
+    }
+
     public void Start_NG()
     {
-        p1.set_start_stats();
         p1.generate_NG_point();
-        p1.EXP = 0;
-        p1.LVL = 1;
+        set_starting_player_values();
     }
 
     public void Hard_reset()
     {
-        p1.hard_reset_stats();
+        set_starting_player_values();
         p1.NG_ATK = 0;
         p1.NG_DEF = 0;
         p1.NG_HP = 0;
         p1.NG_HP_REGEN = 0;
         p1.NG_POINTS = 0;
-        p1.EXP = 0;
-        p1.TO_LVL_UP = 100;
-        p1.LVL = 1;
         Spawn_enemy();
+        Save_stats();
     }
 
     void Add_NG_stats()
@@ -309,12 +309,9 @@ public class Main_Loop : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {   
-        if(p1.START_HP == 0)
-        {
-            p1.set_start_stats();
-        }
         Load_stats();
         Spawn_enemy();
+        Add_NG_stats();
     }
 
     // Update is called once per frame
@@ -322,8 +319,9 @@ public class Main_Loop : MonoBehaviour
     {
         Display_player_stats();
         Display_enemy_stats();
-        Fight();
+        //Fight();
         Level_up();
         Auto_save();
+        Add_NG_stats();
     }
 }

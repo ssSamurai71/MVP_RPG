@@ -9,10 +9,6 @@ public class Player : Characters
     private double to_lvl_up;
     private double stat_points;
     private double new_game_points;
-    private double start_hp;
-    private double start_hp_regen;
-    private double start_def;
-    private double start_atk;
     const int min_stat_roll = 1;
     const int max_stat_roll = 5;
     const int ng_calc = 5;
@@ -69,53 +65,6 @@ public class Player : Characters
         }
     }
 
-    public double START_HP
-    {
-        get
-        {
-            return start_hp;
-        }
-        set
-        {
-            start_hp = value;
-        }
-    }
-
-    public double START_HP_REGEN
-    {
-        get
-        {
-            return start_hp_regen;
-        }
-        set
-        {
-            start_hp_regen = value;
-        }
-    }
-
-    public double START_DEF
-    {
-        get
-        {
-            return start_def;
-        }
-        set
-        {
-            start_def = value;
-        }
-    }
-
-    public double START_ATK
-    {
-        get
-        {
-            return start_atk;
-        }
-        set
-        {
-            start_atk = value;
-        }
-    }
 
     //figure out if a point can be generated
     public void generate_NG_point()
@@ -182,22 +131,6 @@ public class Player : Characters
             STAT_POINTS = STAT_POINTS - 1;
         }
         
-    }
-
-    public void set_start_stats()
-    {
-        START_HP = HP;
-        START_HP_REGEN = HP_REGEN;
-        START_DEF = DEF;
-        START_ATK = ATK;
-    }
-
-    public void hard_reset_stats()
-    {
-        HP = START_HP;
-        HP_REGEN = START_HP_REGEN;
-        DEF = START_DEF;
-        ATK = START_ATK;
     }
 
     //ng plus stuff
