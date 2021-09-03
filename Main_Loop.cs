@@ -53,6 +53,7 @@ public class Main_Loop : MonoBehaviour
         PlayerPrefs.SetString("p1.NG_HP_REGEN",p1.NG_HP_REGEN.ToString());
         PlayerPrefs.SetString("p1.NG_ATK",p1.NG_ATK.ToString());
         PlayerPrefs.SetString("p1.NG_DEF",p1.NG_DEF.ToString());
+        Debug.Log("Saved the stats");
     }
 
     void Auto_save()
@@ -168,19 +169,21 @@ public class Main_Loop : MonoBehaviour
     //damage the player
     void Enemy_attack()
     {
-        double damage_reduced = p1.ATK - random_mob.DEF;
+        double damage_reduced = random_mob.ATK - p1.DEF;
         if(damage_reduced < 0)
             { damage_reduced = 1; }
-        random_mob.CURRENT_HP -= damage_reduced * Time.deltaTime;
+        Debug.Log("Enemy atk has been reduced to " + damage_reduced.ToString() + ". Player took" + damage_reduced.ToString());
+        p1.CURRENT_HP -= damage_reduced * Time.deltaTime;
     }
 
     //damage the enemy
     void Player_attack()
     {
-        double damage_reduced = random_mob.ATK - p1.DEF;
+        double damage_reduced = p1.ATK - random_mob.DEF;
         if(damage_reduced < 0)
             { damage_reduced = 1; }
-        p1.CURRENT_HP -= damage_reduced * Time.deltaTime;
+        Debug.Log("Player atk has been reduced to " + damage_reduced.ToString() + ". Mob took" + damage_reduced.ToString());
+        random_mob.CURRENT_HP -= damage_reduced * Time.deltaTime;
     }
 
     //respawn player if they died
@@ -201,10 +204,14 @@ public class Main_Loop : MonoBehaviour
     //handle some hp regen
     void Regen_health()
     {
-        if(p1.CURRENT_HP <= p1.HP)
-        {
-            p1.CURRENT_HP += p1.HP_REGEN * Time.deltaTime;
+        if(p1.CURRENT_HP < p1.HP)
+        {   
+            double regen_rounded = p1.HP_REGEN * Time.deltaTime;
+            p1.CURRENT_HP += regen_rounded;
+            Debug.Log("Player has regened " + regen_rounded.ToString());
+            Debug.Log("Player current hp is now " + p1.CURRENT_HP.ToString());
         }
+        
     }
 
     //handle the basic loop
@@ -228,6 +235,7 @@ public class Main_Loop : MonoBehaviour
             {
                 Revive_player();
             }
+            Debug.Log("Player's current HP = " + p1.CURRENT_HP);
         }
     }
 
@@ -289,6 +297,9 @@ public class Main_Loop : MonoBehaviour
     public void Hard_reset()
     {
         set_starting_player_values();
+        Debug.Log("player HP_Regen = " + p1.HP_REGEN);
+        Debug.Log("player HP = " + p1.HP);
+        Debug.Log("player current HP = " + p1.CURRENT_HP);
         p1.NG_ATK = 0;
         p1.NG_DEF = 0;
         p1.NG_HP = 0;
@@ -319,7 +330,7 @@ public class Main_Loop : MonoBehaviour
     {
         Display_player_stats();
         Display_enemy_stats();
-        //Fight();
+        Fight();
         Level_up();
         Auto_save();
         Add_NG_stats();
