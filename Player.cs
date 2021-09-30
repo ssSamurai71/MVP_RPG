@@ -158,7 +158,7 @@ public class Player : Characters
         }
     }
 
-    public void improve_ng_hp()
+    public void upgrade_ng_hp()
     {
         if(NG_POINTS > 0)
         {
@@ -167,7 +167,7 @@ public class Player : Characters
         }   
     }
 
-    public void improve_ng_def()
+    public void upgrade_ng_def()
     {
         if(NG_POINTS > 0)
         {
@@ -177,7 +177,7 @@ public class Player : Characters
         
     }
 
-    public void improve_ng_atk()
+    public void upgrade_ng_atk()
     {
         if(NG_POINTS > 0)
         {

@@ -41,7 +41,6 @@ public class StatScreen : Main_Loop
     // Update is called once per frame
     void Update()
     {   
-        Load_stats();
         Display_player_stats();
         Display_all_player_stats();
     }

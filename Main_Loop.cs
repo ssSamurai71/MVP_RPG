@@ -252,6 +252,21 @@ public class Main_Loop : MonoBehaviour
         }
     }
 
+    public void ng_hp_up()
+    {
+        p1.upgrade_ng_def();
+    }
+
+    public void ng_atk_up()
+    {
+        p1.upgrade_ng_atk();
+    }
+
+    public void ng_def_up()
+    {
+        p1.upgrade_ng_def();
+    }
+
     void Level_up()
     {
         p1.lvl_up();
