@@ -16,7 +16,7 @@ public class Main_Loop : MonoBehaviour
     float auto_save_time = 30;
 
     //have constants for starting stats
-    const int start_player_hp = 100, start_current_hp = 100, start_player_hp_regen = 1, start_player_lvl = 1;
+    const int start_player_hp = 100, start_current_hp = 100, start_player_lvl = 1;
     const int start_player_atk = 10, start_player_def = 10, start_player_exp = 0, start_player_to_lvl = 100;
 
     public void Load_stats()
@@ -24,7 +24,6 @@ public class Main_Loop : MonoBehaviour
         p1.LVL = double.Parse(PlayerPrefs.GetString("p1.LVL","1"));
         p1.HP = double.Parse(PlayerPrefs.GetString("p1.HP","100"));
         p1.CURRENT_HP = double.Parse(PlayerPrefs.GetString("p1.CURRENT_HP","100"));
-        p1.HP_REGEN = double.Parse(PlayerPrefs.GetString("p1.HP_REGEN","1"));
         p1.DEF = double.Parse(PlayerPrefs.GetString("p1.DEF","10"));
         p1.ATK = double.Parse(PlayerPrefs.GetString("p1.ATK","10"));
         p1.EXP = double.Parse(PlayerPrefs.GetString("p1.EXP","0"));
@@ -32,7 +31,6 @@ public class Main_Loop : MonoBehaviour
         p1.STAT_POINTS = double.Parse(PlayerPrefs.GetString("p1.STAT_POINTS","0"));
         p1.NG_POINTS = double.Parse(PlayerPrefs.GetString("p1.NG_POINTS","0"));
         p1.NG_HP = double.Parse(PlayerPrefs.GetString("p1.NG_HP","0"));
-        p1.NG_HP_REGEN = double.Parse(PlayerPrefs.GetString("p1.NG_HP_REGEN","0"));
         p1.NG_ATK = double.Parse(PlayerPrefs.GetString("p1.NG_ATK","0"));
         p1.NG_DEF = double.Parse(PlayerPrefs.GetString("p1.NG_DEF","0"));               
     }
@@ -42,7 +40,6 @@ public class Main_Loop : MonoBehaviour
         PlayerPrefs.SetString("p1.LVL",p1.LVL.ToString());
         PlayerPrefs.SetString("p1.HP",p1.HP.ToString());
         PlayerPrefs.SetString("p1.CURRENT_HP",p1.CURRENT_HP.ToString());
-        PlayerPrefs.SetString("p1.HP_REGEN",p1.HP_REGEN.ToString());
         PlayerPrefs.SetString("p1.DEF",p1.DEF.ToString());
         PlayerPrefs.SetString("p1.ATK",p1.ATK.ToString());
         PlayerPrefs.SetString("p1.EXP",p1.EXP.ToString());
@@ -50,7 +47,6 @@ public class Main_Loop : MonoBehaviour
         PlayerPrefs.SetString("p1.STAT_POINTS",p1.STAT_POINTS.ToString());
         PlayerPrefs.SetString("p1.NG_POINTS",p1.NG_POINTS.ToString());
         PlayerPrefs.SetString("p1.NG_HP",p1.NG_HP.ToString());
-        PlayerPrefs.SetString("p1.NG_HP_REGEN",p1.NG_HP_REGEN.ToString());
         PlayerPrefs.SetString("p1.NG_ATK",p1.NG_ATK.ToString());
         PlayerPrefs.SetString("p1.NG_DEF",p1.NG_DEF.ToString());
         Debug.Log("Saved the stats");
@@ -201,17 +197,11 @@ public class Main_Loop : MonoBehaviour
         Spawn_enemy();
     }
 
-    //handle some hp regen
-    void Regen_health()
+    //heal the player on demand
+    public void Heal()
     {
-        if(p1.CURRENT_HP < p1.HP)
-        {   
-            double regen_rounded = p1.HP_REGEN * Time.deltaTime;
-            p1.CURRENT_HP += regen_rounded;
-            Debug.Log("Player has regened " + regen_rounded.ToString());
-            Debug.Log("Player current hp is now " + p1.CURRENT_HP.ToString());
-        }
-        
+        p1.CURRENT_HP = p1.HP;
+        Spawn_enemy();
     }
 
     //handle the basic loop
@@ -220,7 +210,6 @@ public class Main_Loop : MonoBehaviour
         if(random_mob.CURRENT_HP > 0)
         {
             Player_attack();
-            Regen_health();
             if(p1.CURRENT_HP > 0 && random_mob.CURRENT_HP > 0)
             {
                 Enemy_attack();
@@ -244,14 +233,6 @@ public class Main_Loop : MonoBehaviour
         if(p1.STAT_POINTS > 0)
         {
             p1.improve_hp();
-        }
-    }
-
-    public void improve_player_hp_regen()
-    {
-        if(p1.STAT_POINTS > 0)
-        {
-            p1.improve_hp_regen();
         }
     }
 
@@ -285,7 +266,6 @@ public class Main_Loop : MonoBehaviour
         p1.LVL = start_player_lvl;
         p1.EXP = start_player_exp;
         p1.TO_LVL_UP = start_player_to_lvl;
-        p1.HP_REGEN = start_player_hp_regen;
     }
 
     public void Start_NG()
@@ -297,14 +277,13 @@ public class Main_Loop : MonoBehaviour
     public void Hard_reset()
     {
         set_starting_player_values();
-        Debug.Log("player HP_Regen = " + p1.HP_REGEN);
         Debug.Log("player HP = " + p1.HP);
         Debug.Log("player current HP = " + p1.CURRENT_HP);
         p1.NG_ATK = 0;
         p1.NG_DEF = 0;
         p1.NG_HP = 0;
-        p1.NG_HP_REGEN = 0;
         p1.NG_POINTS = 0;
+        p1.STAT_POINTS = 0;
         Spawn_enemy();
         Save_stats();
     }
@@ -312,7 +291,6 @@ public class Main_Loop : MonoBehaviour
     void Add_NG_stats()
     {
         p1.HP = p1.HP + p1.NG_HP;
-        p1.HP_REGEN = p1.HP_REGEN + p1.HP_REGEN;
         p1.ATK = p1.ATK + p1.NG_ATK;
         p1.DEF = p1.DEF + p1.NG_DEF;
     }
@@ -320,6 +298,7 @@ public class Main_Loop : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {   
+        set_starting_player_values();
         Load_stats();
         Spawn_enemy();
         Add_NG_stats();

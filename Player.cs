@@ -13,7 +13,6 @@ public class Player : Characters
     const int max_stat_roll = 5;
     const int ng_calc = 5;
     private double ng_hp;
-    private double ng_hp_regen;
     private double ng_def;
     private double ng_atk;
 
@@ -86,7 +85,6 @@ public class Player : Characters
                 STAT_POINTS += 3;
                 TO_LVL_UP *= 1.15;
                 HP += Random.Range(min_stat_roll, max_stat_roll);
-                HP_REGEN += Random.Range(min_stat_roll, max_stat_roll);
                 DEF += Random.Range(min_stat_roll, max_stat_roll);
                 ATK += Random.Range(min_stat_roll, max_stat_roll);
             }
@@ -101,16 +99,6 @@ public class Player : Characters
             HP += 50;
             STAT_POINTS = STAT_POINTS - 1;
         }
-    }
-
-    public void improve_hp_regen()
-    {
-        if(STAT_POINTS > 0)
-        {
-            HP_REGEN += 5;
-            STAT_POINTS = STAT_POINTS - 1; 
-        }
-        
     }
 
     public void improve_def()
@@ -146,18 +134,6 @@ public class Player : Characters
         }
     }
 
-    public double NG_HP_REGEN
-    {
-        get
-        {
-            return ng_hp_regen;
-        }
-        set
-        {
-            ng_hp_regen = value;
-        }
-    }
-
     public double NG_ATK
     {
         get
@@ -188,18 +164,7 @@ public class Player : Characters
         {
             NG_HP += 10;
             NG_POINTS = NG_POINTS - 1;    
-        }
-        
-    }
-
-    public void improve_ng_hp_regen()
-    {
-        if(NG_POINTS > 0)
-        {
-            NG_HP_REGEN += 2;
-            NG_POINTS = NG_POINTS - 1; 
-        }
-        
+        }   
     }
 
     public void improve_ng_def()

@@ -6,7 +6,6 @@ public class Characters : MonoBehaviour
 {
     private double hp;
     private double current_hp;
-    private double hp_regen;
     private double def;
     private double atk;
     private double level;
@@ -32,18 +31,6 @@ public class Characters : MonoBehaviour
         set
         {
             current_hp = value;
-        }
-    }
-
-    public double HP_REGEN
-    {
-        get
-        {
-            return hp_regen;
-        }
-        set
-        {
-            hp_regen = value;
         }
     }
 
